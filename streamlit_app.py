@@ -325,7 +325,7 @@
   }
  },
  "nbformat": 4,
-
+}
 "import: joblib",
 "model : joblib.load(best_rf_model.pk1)",
 # Title of the app
