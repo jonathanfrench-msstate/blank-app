@@ -325,7 +325,7 @@
   }
  },
  "nbformat": 4,
-import joblib
+
  # Load your model
 model = joblib.load('best_rf_model.pkl')
 
