@@ -329,9 +329,10 @@
 }
 import streamlit as st
 import pandas as pd
+import numpy as np
 import joblib
 
-# Load your model
+# Load the pre-trained model
 model = joblib.load('best_rf_model.pkl')
 
 # Title of the app
@@ -342,17 +343,47 @@ RelSpeed = st.number_input("Enter RelSpeed", min_value=0.0)
 SpinRate = st.number_input("Enter SpinRate", min_value=0.0)
 HorzBreak = st.number_input("Enter Horizontal Break", min_value=0.0)
 InducedVertBreak = st.number_input("Enter Induced Vertical Break", min_value=0.0)
+RelHeight = st.number_input("Enter Release Height", min_value=0.0)
+RelSide = st.number_input("Enter Release Side", min_value=0.0)
+Tilt = st.number_input("Enter Tilt", min_value=0.0)
+
+# Automatically calculate derived features
+def calculate_features(rel_speed, spin_rate, horz_break, vert_break, rel_side, rel_height, tilt):
+    # Add calculated features
+    derived_features = {
+        'RelSpeed': rel_speed,
+        'SpinRate': spin_rate,
+        'HorzBreak': horz_break,
+        'InducedVertBreak': vert_break,
+        'RelSide': rel_side,
+        'RelHeight': rel_height,
+        'Tilt': tilt,
+        'SpinEfficiency': np.sqrt(horz_break**2 + vert_break**2) / spin_rate * 100 if spin_rate != 0 else 0,
+        'SpinRate_InducedVertBreak': spin_rate * vert_break,
+        'RelSpeed_SpinAxis': rel_speed * tilt,
+        'ReleaseConsistency': 0.05,  # Placeholder for consistency if unavailable
+        'ExitSpeed_Angle': rel_speed * tilt,  # Example placeholder interaction
+        'SpinRate_RelSide': spin_rate * rel_side,
+        'SpinEfficiency_InducedVertBreak': (np.sqrt(horz_break**2 + vert_break**2) / spin_rate * 100 if spin_rate != 0 else 0) * vert_break,
+        'InducedVertBreak_RelHeight': vert_break * rel_height,
+        'ExitSpeed_SpinRate': rel_speed * spin_rate,
+        'HorzBreak_RelSide': horz_break * rel_side,
+        'RelSide_SpinEfficiency': rel_side * (np.sqrt(horz_break**2 + vert_break**2) / spin_rate * 100 if spin_rate != 0 else 0),
+    }
+    return derived_features
 
 # Create a dataframe for input
-inputs = pd.DataFrame({
-    'RelSpeed': [RelSpeed],
-    'SpinRate': [SpinRate],
-    'HorzBreak': [HorzBreak],
-    'InducedVertBreak': [InducedVertBreak],
-})
+inputs = pd.DataFrame([calculate_features(RelSpeed, SpinRate, HorzBreak, InducedVertBreak, RelSide, RelHeight, Tilt)])
 
 # When the user clicks the "Predict" button
 if st.button('Predict Stuff+'):
-    # Use the model to predict Stuff+
-    prediction = model.predict(inputs)
-    st.write(f"The predicted Stuff+ value is: {prediction[0]:.2f}")
+    if inputs.isnull().values.any():
+        st.error("Please ensure all input fields are filled!")
+    else:
+        # Use the model to predict Stuff+
+        prediction = model.predict(inputs)
+        st.write(f"The predicted Stuff+ value is: {prediction[0]:.2f}")
+
+    # Display the input data for transparency
+    st.write("Input Features Used for Prediction:")
+    st.dataframe(inputs)
