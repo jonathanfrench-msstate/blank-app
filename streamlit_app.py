@@ -325,8 +325,9 @@
   }
  },
  "nbformat": 4,
-# Load your model
-model : joblib.load('best_rf_model.pkl')
+import joblib
+ # Load your model
+model = joblib.load('best_rf_model.pkl')
 
 # Title of the app
 st.title('Stuff+ Model Prediction')
