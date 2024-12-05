@@ -327,14 +327,32 @@
  "nbformat": 4,
  "nbformat_minor": 5
 }
-import matplotlib.pyplot as plt
 import streamlit as st
+import pandas as pd
+import joblib
 
-# Example chart
-data = [1, 2, 3, 4, 5]
-fig, ax = plt.subplots()
-ax.plot(data)
+# Load your model
+model = joblib.load('best_rf_model.pkl')
 
-# Display the plot in Streamlit
-st.pyplot(fig)
+# Title of the app
+st.title('Stuff+ Model Prediction')
 
+# Collect input from the user using widgets
+RelSpeed = st.number_input("Enter RelSpeed", min_value=0.0)
+SpinRate = st.number_input("Enter SpinRate", min_value=0.0)
+HorzBreak = st.number_input("Enter Horizontal Break", min_value=0.0)
+InducedVertBreak = st.number_input("Enter Induced Vertical Break", min_value=0.0)
+
+# Create a dataframe for input
+inputs = pd.DataFrame({
+    'RelSpeed': [RelSpeed],
+    'SpinRate': [SpinRate],
+    'HorzBreak': [HorzBreak],
+    'InducedVertBreak': [InducedVertBreak],
+})
+
+# When the user clicks the "Predict" button
+if st.button('Predict Stuff+'):
+    # Use the model to predict Stuff+
+    prediction = model.predict(inputs)
+    st.write(f"The predicted Stuff+ value is: {prediction[0]:.2f}")
