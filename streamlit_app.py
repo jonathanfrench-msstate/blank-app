@@ -325,10 +325,9 @@
   }
  },
  "nbformat": 4,
-my_dict = { 'key': 'value' }
 
  # Load your model
-model = joblib.load('best_rf_model.pkl')
+model : joblib.load('best_rf_model.pkl')
 
 # Title of the app
 st.title('Stuff+ Model Prediction')
