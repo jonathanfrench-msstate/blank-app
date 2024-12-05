@@ -327,4 +327,14 @@
  "nbformat": 4,
  "nbformat_minor": 5
 }
+import matplotlib.pyplot as plt
+import streamlit as st
+
+# Example chart
+data = [1, 2, 3, 4, 5]
+fig, ax = plt.subplots()
+ax.plot(data)
+
+# Display the plot in Streamlit
+st.pyplot(fig)
 
