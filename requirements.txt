@@ -2,4 +2,7 @@ streamlit==1.12.0
 matplotlib==3.4.3
 joblib==1.1.0
 scikit-learn==0.24.2
-cython
+pandas==1.3.3
+Cython==0.29.33
+numpy==1.21.0
+
