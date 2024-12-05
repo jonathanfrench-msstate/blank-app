@@ -325,10 +325,6 @@
   }
  },
  "nbformat": 4,
- import streamlit as st
-import pandas as pd
-import joblib
-
 # Load your model
 model = joblib.load('best_rf_model.pkl')
 
