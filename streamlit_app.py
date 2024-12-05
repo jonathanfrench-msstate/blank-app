@@ -326,10 +326,10 @@
  },
  "nbformat": 4,
 
-"import joblib"
-model : joblib.load(best_rf_model.pk1)
+"import joblib\n",
+"model : joblib.load(best_rf_model.pk1)",
 # Title of the app
-st.title:(Stuff+ Model Prediction)
+"st.title:('Stuff+ Model Prediction')",
 
 # Collect input from the user using widgets
 RelSpeed = st.number_input("Enter RelSpeed", min_value=0.0)
