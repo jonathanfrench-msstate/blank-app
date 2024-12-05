@@ -325,11 +325,17 @@
   }
  },
  "nbformat": 4,
+ "nbformat_minor": 5
 }
-"import: joblib",
-"model : joblib.load(best_rf_model.pk1)",
+import streamlit as st
+import pandas as pd
+import joblib
+
+# Load your model
+model = joblib.load('best_rf_model.pkl')
+
 # Title of the app
-"st.title:('Stuff+ Model Prediction')",
+st.title('Stuff+ Model Prediction')
 
 # Collect input from the user using widgets
 RelSpeed = st.number_input("Enter RelSpeed", min_value=0.0)
@@ -350,6 +356,3 @@ if st.button('Predict Stuff+'):
     # Use the model to predict Stuff+
     prediction = model.predict(inputs)
     st.write(f"The predicted Stuff+ value is: {prediction[0]:.2f}")
-
- "nbformat_minor": 5
-}
