@@ -325,6 +325,7 @@
   }
  },
  "nbformat": 4,
+my_dict = { 'key': 'value' }
 
  # Load your model
 model = joblib.load('best_rf_model.pkl')
